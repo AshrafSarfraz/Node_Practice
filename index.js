@@ -1,15 +1,14 @@
-const fs =require('fs')
-const path=require('path')
-const dirpath=path.join(__dirname,'Crud')
-const filepath=`${dirpath}/apple.txt`
+const {MongoClient}=require('mongodb');
+const url='mongodb://localhost:27017'
+const Client=new MongoClient(url)
 
-// fs.writeFileSync(filepath,'This is path')          //   create a file
-// fs.readFile(filepath,'utf8',(err,item)=>{         //   read a file
-//     console.log(item)
-// })
+async function GetData(){
+   let Result=await Client.connect()
+   let DB=Result.db('admin')
+   let collection =DB.collection('User')
+   let response=await collection.find({}).toArray()
+   console.log(response)
 
-// fs.appendFile(filepath,' and this is added ', (err)=>{
-//     if(err){ console.log('Updated')}})
+}
 
-    fs.rename(filepath,`${dirpath}/fruits`, (err)=>{
-        if(err){ console.log('Updated') }})
+GetData();
